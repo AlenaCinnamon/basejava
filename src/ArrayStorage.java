@@ -3,19 +3,22 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    private int size = 0;
 
     void clear() {
-        for (int i = 0; i < this.size(); i++) {
+        for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
+        size = 0;
     }
 
     void save(Resume r) {
-        storage[this.size()] = r;
+        storage[size] = r;
+        size++;
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < this.size(); i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
             }
@@ -24,20 +27,12 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < this.size(); i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                if (i+1 == this.size()) {
-                    storage[i] = null;
-                } else {
-                    storage[i] = storage[i+1];
-                }
-                for (int j = i+1; j < this.size(); j++) {
-                    if (j+1 != this.size()) {
-                        storage[j] = storage[j+1];
-                    } else {
-                        storage[j] = null;
-                    }
-                }
+                storage[i] = storage[size - 1];
+                storage[size - 1] = null;
+                size--;
+                break;
             }
         }
     }
@@ -46,18 +41,14 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] r = new Resume[this.size()];
-        for (int i = 0; i < this.size(); i++) {
-            r[i] = storage[i];
+        Resume[] resumes = new Resume[size];
+        for (int i = 0; i < size; i++) {
+            resumes[i] = storage[i];
         }
-        return r;
+        return resumes;
     }
 
     int size() {
-        int i = 0;
-        while (storage[i] != null) {
-            i++;
-        }
-        return i;
+        return size;
     }
 }
