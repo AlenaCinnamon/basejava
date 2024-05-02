@@ -1,10 +1,7 @@
-package com.urise.webapp.storage;
+package ru.javawebinar.basejava.storage;
 
-import com.urise.webapp.model.Resume;
+import ru.javawebinar.basejava.model.Resume;
 
-/**
- * Array based storage for Resumes
- */
 public interface Storage {
 
     void clear();

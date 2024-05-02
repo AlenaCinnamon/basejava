@@ -1,6 +1,6 @@
-package com.urise.webapp.storage;
+package ru.javawebinar.basejava.storage;
 
-import com.urise.webapp.model.Resume;
+import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
 
@@ -8,9 +8,6 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage{
-    private static final int STORAGE_LIMIT = 10000;
-    private Resume[] storage = new Resume[STORAGE_LIMIT];
-    private int size = 0;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -29,7 +26,7 @@ public class ArrayStorage extends AbstractArrayStorage{
     public void save(Resume r) {
         if (getIndex(r.getUuid()) != -1) {
             System.out.println("ERROR. Resume " + r.getUuid() + " already exist" );
-        } else if (size == STORAGE_LIMIT) {
+        } else if (size >= STORAGE_LIMIT) {
             System.out.println("ERROR. Storage overflow" );
         } else {
             storage[size] = r;
@@ -37,19 +34,10 @@ public class ArrayStorage extends AbstractArrayStorage{
         }
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index == -1) {
-            System.out.println("ERROR. Resume " + uuid + " not exist" );
-            return null;
-        }
-        return storage[index];
-    }
-
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index == -1) {
-            System.out.println("ERROR");
+            System.out.println("ERROR. Resume " + uuid + " not exist");
         } else {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
@@ -57,16 +45,13 @@ public class ArrayStorage extends AbstractArrayStorage{
         }
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    private int getIndex(String uuid) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (uuid == storage[i].getUuid()) {
+            if (uuid.equals(storage[i].getUuid())) {
                 return i;
             }
         }
