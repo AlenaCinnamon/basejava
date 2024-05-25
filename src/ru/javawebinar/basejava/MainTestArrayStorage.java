@@ -1,13 +1,15 @@
-package ru.javawebinar;
+package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.ArrayStorage;
+import ru.javawebinar.basejava.storage.SortedArrayStorage;
+//import ru.javawebinar.basejava.storage.ArrayStorage;
 
 /**
- * Test for your com.arise.webapp.storage.ArrayStorage implementation
+ * Test ru.javawebinar.basejava.storage.ArrayStorage
  */
 public class MainTestArrayStorage {
-   static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+   //static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    static final SortedArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume();
@@ -20,7 +22,7 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
-       // System.out.println("Index of r2: " + Arrays.binarySearch(ARRAY_STORAGE.storage, 0, ARRAY_STORAGE.size(), r2));
+
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
         System.out.println("Size: " + ARRAY_STORAGE.size());
 
@@ -33,8 +35,8 @@ public class MainTestArrayStorage {
         printAll();
 
         System.out.println("Size: " + ARRAY_STORAGE.size());
-
     }
+
     static void printAll() {
         System.out.println("\nGet All");
         for (Resume r : ARRAY_STORAGE.getAll()) {
